@@ -1,6 +1,16 @@
 import pandas as pd
 from pandas import ExcelWriter
 from pandas import ExcelFile
+import tkinter as tk
+
+window = tk.Tk()
+window.geometry("540x700")
+window.title("ReInspection GUI")
+
+tk.Label(window, text = "Excel Pathname:").grid(row = 0)
+pathname = tk.Entry(window).grid(row = 0, column = 1)
+
+window.mainloop()
 
 sheet = pd.read_excel("/Users/joshua.ryland/Desktop/UNI/test.xlsx")
 
@@ -21,3 +31,6 @@ sheet = sheet.loc[mask]
 print("There are a total of "+ str(len(sheet)) +" overdue items for reinspection.")
 print("They are between the dates 01/01/2018 and 01/01/2020.")
 sheet
+
+#Open GUI Window
+
