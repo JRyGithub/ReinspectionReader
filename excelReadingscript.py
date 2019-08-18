@@ -4,10 +4,10 @@ from pandas import ExcelFile
 import PySimpleGUI as sg
 
 layout = [[sg.Text('Filename:')],
-            [sg.Input(), sg.FileBrowse()],
-            [sg.Submit(), sg.Cancel()],
+            [sg.Input(), sg.FileBrowse(button_color=('white','navy'))],
+            [sg.Submit(button_color=('white','navy')), sg.Cancel(button_color=('white','navy'))],
             [sg.Output(size=(80,20))]]
-
+            
 window = sg.Window("Reinspection Wizard",layout, default_element_size=(130,250))
 
 while True:
