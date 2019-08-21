@@ -50,4 +50,5 @@ while True:
                 listOfProperties.append(properties)
             print("")
         print(sheet['Sample Type']+" located at "+ sheet['Location'])
+        #<TODO> Clean the above line up to maybe print each item sperately without number etc.
 window.Close()
