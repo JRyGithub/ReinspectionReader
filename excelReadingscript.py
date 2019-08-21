@@ -49,4 +49,5 @@ while True:
                 print(properties)
                 listOfProperties.append(properties)
             print("")
+        print(sheet['Sample Type']+" located at "+ sheet['Location'])
 window.Close()
