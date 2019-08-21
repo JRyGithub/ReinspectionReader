@@ -17,16 +17,20 @@ while True:
     elif event is event == "Submit":
         pathname = values[0]
         print(pathname)
-        sheet = pd.read_excel(pathname)
-    
+        #checks if pathname contains AMP, as that would mean a different register has been added which is on a different sheet
+        if("AMP" in pathname):
+            sheet = pd.read_excel(pathname, 'App C - Asb Reg - Updated')
+        else:
+            sheet = pd.read_excel(pathname)
         sheet['Reinspect Date'] = pd.to_datetime(sheet['Reinspect Date'])
-
+        #dates to check between, can change as time goes, <TODO> obtain wanted dates via user input
         start_date = '01-01-2018'
         end_date = '01-01-2020'
 
         mask = (sheet['Reinspect Date'] > start_date) & (sheet['Reinspect Date'] <= end_date)
 
         sheet = sheet.loc[mask]
+        #if no reinspections
         if(len(sheet)==0):
             print("")
             print("There are no reinspections required at this time.")
@@ -35,8 +39,14 @@ while True:
         print("They are between the dates 01/01/2018 and 01/01/2020.")
         print("These are at the following properties:")
         print("")
+        #Runs through dictionary of properties printing out names requring reinsoections if property is already said it continues.
         propertyDict = sheet['Property Name'].to_dict()
+        listOfProperties = []
         for amount, properties in propertyDict.items():
-            print(properties)
+            if(properties in listOfProperties):
+                continue
+            else:
+                print(properties)
+                listOfProperties.append(properties)
             print("")
 window.Close()
