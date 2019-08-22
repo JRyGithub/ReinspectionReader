@@ -3,10 +3,17 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 import PySimpleGUI as sg
 
+sg.SetOptions(
+    background_color='#FFCD11',
+    element_background_color='#FFD948',
+    text_color='#5C4B0C',
+    button_color=('white','#98834B')
+    )
 layout = [[sg.Text('Filename:')],
-            [sg.Input(), sg.FileBrowse(button_color=('white','navy'))],
-            [sg.Submit(button_color=('white','navy')), sg.Cancel(button_color=('white','navy'))],
-            [sg.Output(size=(100,50))]]
+            [sg.Input(background_color='#FFD948'), sg.FileBrowse()],
+            [sg.Submit(), sg.Cancel()],
+            [sg.Output(size=(100,50),background_color='#FFD948')]]
+
             
 window = sg.Window("Reinspection Wizard",layout)
 
@@ -57,14 +64,16 @@ while True:
                 listOfProperties.append(properties)
                 try:
                     sheetSample = sheet.loc[sheet['Property Name'] == properties]
-                    print(sheetSample['Sample Type']+" located:"+ sheetSample['Location'])
+                    sampleTypes = sheetSample['Sample Type'].to_dict()
+                    for index, category in sampleTypes.items():
+                        locale = sheetSample.loc[sheet['Sample Type'] == category]
+                        print(category +" located: \n"+locale['Location'].to_string(index=False))
                 except:
                     sheetSample = sheet.loc[sheet['Property Name'] == properties]
                     sampleCategories = sheetSample['Sample Category'].to_dict()
                     for index, category in sampleCategories.items():
                         locale = sheetSample.loc[sheet['Sample Category'] == category]
                         print(category +" located: \n"+locale['Location of Sample'].to_string(index=False))
-                #<TODO> Clean the above line up to maybe print each item sperately without number etc.
             print("")
             
 window.Close()
