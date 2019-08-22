@@ -19,7 +19,14 @@ while True:
         print(pathname)
         #checks if pathname contains AMP, as that would mean a different register has been added which is on a different sheet
         if("AMP" in pathname):
-            sheet = pd.read_excel(pathname, 'App C - Asb Reg - Updated')
+            try:
+                sheet = pd.read_excel(pathname, 'App C - Asb Reg - Updated')
+            except:
+                try:
+                    sheet = pd.read_excel(pathname)
+                except:
+                    print("Pathname error.")
+                    continue
         else:
             sheet = pd.read_excel(pathname)
         sheet['Reinspect Date'] = pd.to_datetime(sheet['Reinspect Date'])
@@ -49,6 +56,10 @@ while True:
                 print(properties)
                 listOfProperties.append(properties)
             print("")
-        print(sheet['Sample Type']+" located at "+ sheet['Location'])
+            #so these works, <TODO> but currently puts every sample for every property I want it to show each sample for that propertly only
+            try:
+                print(sheet['Sample Type']+" located at "+ sheet['Location'])
+            except:
+                print(sheet['Sample Category']+" located at "+ sheet['Location of Sample'])
         #<TODO> Clean the above line up to maybe print each item sperately without number etc.
 window.Close()
