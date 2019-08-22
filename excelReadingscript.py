@@ -6,9 +6,9 @@ import PySimpleGUI as sg
 layout = [[sg.Text('Filename:')],
             [sg.Input(), sg.FileBrowse(button_color=('white','navy'))],
             [sg.Submit(button_color=('white','navy')), sg.Cancel(button_color=('white','navy'))],
-            [sg.Output(size=(80,20))]]
+            [sg.Output(size=(100,50))]]
             
-window = sg.Window("Reinspection Wizard",layout, default_element_size=(130,250))
+window = sg.Window("Reinspection Wizard",layout)
 
 while True:
     event,values = window.Read()
@@ -16,7 +16,7 @@ while True:
         break
     elif event is event == "Submit":
         pathname = values[0]
-        print(pathname)
+        print(pathname +"\n")
         #checks if pathname contains AMP, as that would mean a different register has been added which is on a different sheet
         if("AMP" in pathname):
             try:
@@ -55,11 +55,16 @@ while True:
             else:
                 print(properties)
                 listOfProperties.append(properties)
+                try:
+                    sheetSample = sheet.loc[sheet['Property Name'] == properties]
+                    print(sheetSample['Sample Type']+" located:"+ sheetSample['Location'])
+                except:
+                    sheetSample = sheet.loc[sheet['Property Name'] == properties]
+                    sampleCategories = sheetSample['Sample Category'].to_dict()
+                    for index, category in sampleCategories.items():
+                        locale = sheetSample.loc[sheet['Sample Category'] == category]
+                        print(category +" located: \n"+locale['Location of Sample'].to_string(index=False))
+                #<TODO> Clean the above line up to maybe print each item sperately without number etc.
             print("")
-            #so these works, <TODO> but currently puts every sample for every property I want it to show each sample for that propertly only
-            try:
-                print(sheet['Sample Type']+" located at "+ sheet['Location'])
-            except:
-                print(sheet['Sample Category']+" located at "+ sheet['Location of Sample'])
-        #<TODO> Clean the above line up to maybe print each item sperately without number etc.
+            
 window.Close()
