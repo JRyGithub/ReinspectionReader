@@ -54,7 +54,10 @@ while True:
         print("These are at the following properties:")
         print("")
         #Runs through dictionary of properties printing out names requring reinsoections if property is already said it continues.
-        propertyDict = sheet['Property Name'].to_dict()
+        try:
+            propertyDict = sheet['Property Name'].to_dict()
+        except:
+            propertyDict = sheet['Address'].to_dict()
         listOfProperties = []
         for amount, properties in propertyDict.items():
             if(properties in listOfProperties):
