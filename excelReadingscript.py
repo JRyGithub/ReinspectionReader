@@ -38,8 +38,8 @@ while True:
             sheet = pd.read_excel(pathname)
         sheet['Reinspect Date'] = pd.to_datetime(sheet['Reinspect Date'])
         #dates to check between, can change as time goes, <TODO> obtain wanted dates via user input
-        start_date = '01-01-2018'
-        end_date = '01-01-2020'
+        start_date = '01-01-2016'
+        end_date = '01-06-2020'
 
         mask = (sheet['Reinspect Date'] > start_date) & (sheet['Reinspect Date'] <= end_date)
 
@@ -50,7 +50,7 @@ while True:
             print("There are no reinspections required at this time.")
             continue
         print("There are a total of "+ str(len(sheet)) +" overdue items for reinspection.")
-        print("They are between the dates 01/01/2018 and 01/01/2020.")
+        print("They are between the dates "+start_date+" and "+end_date+".")
         print("These are at the following properties:")
         print("")
         #Runs through dictionary of properties printing out names requring reinsoections if property is already said it continues.
@@ -67,6 +67,7 @@ while True:
                 listOfProperties.append(properties)
                 try:
                     sheetSample = sheet.loc[sheet['Property Name'] == properties]
+                    print(properties+" has "+ str(len(sheetSample))+" overdue samples.")
                     sampleTypes = sheetSample['Sample Type'].to_dict()
                     for index, category in sampleTypes.items():
                         locale = sheetSample.loc[sheet['Sample Type'] == category]
@@ -76,7 +77,10 @@ while True:
                     sampleCategories = sheetSample['Sample Category'].to_dict()
                     for index, category in sampleCategories.items():
                         locale = sheetSample.loc[sheet['Sample Category'] == category]
-                        print(category +" located: \n"+locale['Location of Sample'].to_string(index=False))
+                        try:
+                            print(category +" located: \n"+locale['Location of Sample'].to_string(index=False))
+                        except:
+                            print('Type Error')
             print("")
             
 window.Close()
