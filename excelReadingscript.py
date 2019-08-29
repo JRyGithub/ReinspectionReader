@@ -39,7 +39,7 @@ while True:
         sheet['Reinspect Date'] = pd.to_datetime(sheet['Reinspect Date'])
         #dates to check between, can change as time goes, <TODO> obtain wanted dates via user input
         start_date = '01-01-2016'
-        end_date = '01-06-2020'
+        end_date = '06-01-2020'
 
         mask = (sheet['Reinspect Date'] > start_date) & (sheet['Reinspect Date'] <= end_date)
 
